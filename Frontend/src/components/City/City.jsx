@@ -13,14 +13,35 @@ const City = () => {
   const dispatch = useDispatch();
   const { cityData } = useSelector(state => state);
 
-  useEffect(() => {
-    axios.get(`https://eco-tourism-backend.onrender.com/city`)
-      .then((Response) => {
-        dispatch(SEND_DATA_FUNCTION(Response.data));
-      });
+  // useEffect(() => {
+  //   axios.get(`https://eco-tourism-backend.onrender.com/city`)
+  //     .then((Response) => {
+  //       dispatch(SEND_DATA_FUNCTION(Response.data));
+  //     });
 
-    setState(cityData);
-  }, []);
+  //   setState(cityData);
+  // }, []);
+
+
+  useEffect(() => {
+    fetch("http://localhost:7000/city", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setState(res);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },[]);
+
 
   useEffect(() => {
     setState(cityData);

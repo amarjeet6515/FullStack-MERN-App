@@ -3,6 +3,7 @@ import { Routes,Route } from 'react-router'
 import Home from './Home'
 import Payment from './Payment/Payment'
 import Login from './Login'
+import Signup from './Signup'
 import Plan_trip from './Plan_trip'
 import Explore_destinations from './Explore_destinations'
 import PrivateRoute from './PrivateRoute'
@@ -29,6 +30,7 @@ export default function AllRoutes() {
               <Payment/>
           }/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/signup' element={<Signup/>}/>
           <Route path='/plan-a-trip' element={
             <PrivateRoute>
               <Plan_trip/>

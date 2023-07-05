@@ -1,5 +1,15 @@
-import React, { useEffect } from 'react';
-import { Flex, Box, Image, useToast ,Button} from '@chakra-ui/react';
+import React, { useEffect , useState} from 'react';
+import {
+  Flex,
+  Box,
+  Image,
+  useToast,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginFailure, loginSuccess } from '../Redux/action';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -10,6 +20,15 @@ import swan from '../Images/swan.jpg'
 import loginLogo from '../Images/login-page-logo.png'
 
 export default function Login() {
+
+
+  const [email, setEmail] = useState("");
+ 
+  const [password, setPassword] = useState("");
+
+
+
+
   const dispatch = useDispatch();
   const { isAuthenticated, privateroute } = useSelector((state) => state);
   const navigate = useNavigate();
@@ -54,6 +73,39 @@ export default function Login() {
     localStorage.setItem('isAuthenticated', isAuthenticated);
   }, [isAuthenticated]);
 
+
+
+
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const payload = {
+      email,
+      password
+    };
+    console.log(payload);
+    fetch("http://localhost:7000/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if(res.token){
+          localStorage.setItem("token",res.token);
+          dispatch(loginSuccess(res));
+        }
+        else{
+          dispatch(loginFailure());
+          alert(res.message)
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <GoogleOAuthProvider 
     clientId="373264275746-eju7u5qlvit8e986i1b552dn49nb0nvt.apps.googleusercontent.com">
@@ -79,14 +131,60 @@ export default function Login() {
             justifyContent={'space-around'}
           >
             <Image src={loginLogo} w={'250px'} />
-            <Flex textAlign={'center'} flexDirection={'column'}  gap={'20px'}>
+            <Flex textAlign={'center'} flexDirection={'column'}  gap={'10px'}>
+            <form onSubmit={handleLogin} style={{
+                                    // fontFamily: 'Estonia, cursive',
+                                    fontWeight: '100',
+                                    fontSize: '2.3rem',
+                                    width: '85%',
+                                    color: 'white'
+                                }}>
+                                    <FormControl>
+                                        <FormLabel  mb={-15}>Email</FormLabel>
+                                        <Input
+                                            type="email"
+                                            width='250px'
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel mb={-15}>Password</FormLabel>
+                                        <Input
+                                            type="password"
+                                            width='250px'
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                    </FormControl>
+
+                                    <Button type="submit" 
+                                     colorScheme="green"
+                                     shape='square'
+                                     width='250px'
+                                     >
+                                        LOGIN
+                                    </Button>
+                                </form>
+                                <h3 style={{color: 'white'}}>OR</h3>
+                                <Link to={`/signup`}><Button  
+                                     colorScheme="green"
+                                     shape='square'
+                                     width='250px'
+                                     >
+                                        SIGNUP
+                                    </Button>
+                                    </Link>
+              
               <GoogleLogin
                 onSuccess={handleCredentialResponse}
                 theme='outline'
                 shape='square'
                 size='medium'
                 logo_alignment='center'
-                width='200px'
+                width='250px'
                 onError={() => {
                   console.log('Login Failed');
                 }}

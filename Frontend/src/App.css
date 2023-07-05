@@ -1,0 +1,62 @@
+/* Navbar */
+body{
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar{
+  width: 0;
+}
+
+.IconButton{
+  color: black;
+  background: white;
+  display: none !important;
+}
+.nav{
+  display: flex;
+}
+/* Login */
+
+.signin-box-text{
+  display: flex;
+  justify-content:center;
+  flex-direction: column;
+}
+
+/* Homepage */
+
+.homepage-heading{
+  font-size:2.8rem;
+  text-align: left;
+  width: 50%;
+  padding-bottom: 0;
+}
+
+.homepage-text{    
+  width: 80%;
+  height: 65%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.homepage-description{
+  width: 85%;
+  text-align: left;
+}
+
+.about-use-second-para{
+  display: block;
+}
+
+
+/* Explore Destination */
+.explore-dest::-webkit-scrollbar{
+  display: none;
+}
+
+
+/* Wishlist */
+.cart::-webkit-scrollbar{
+  display: none;
+}
